@@ -1,8 +1,18 @@
+%%%-------------------------------------------------------------------
+%%% @doc
+%%% Demonstrate Erlangs protection against Buffer Overflow
+%%
+%%% Example: 
+%%%   validate_password("password").
+%%% @end
+%%%-------------------------------------------------------------------
 -module(safe_buffer).
+-author("Camilo de Azevedo <camilotk@gmail.com>").
+
 -export([validate_password/1]).
 
+%%doc Handles user authentication with a password prompt
 validate_password(InputPassword) ->
-    % Read password from file
     case file:read_file("password.txt") of
         {ok, StoredPasswordBinary} ->
             % Convert binary to string and remove trailing newline if present
@@ -12,7 +22,6 @@ validate_password(InputPassword) ->
             % We can safely handle passwords of any length
             io:format("Checking password...~n"),
             
-            % Simple password comparison
             case InputPassword =:= StoredPassword of
                 true -> 
                     io:format("Authentication successful!~n"),

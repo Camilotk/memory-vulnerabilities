@@ -10,7 +10,7 @@
  * an unsafe function (gets()) that does not perform bounds checking, potentially
  * allowing an attacker to overflow the buffer and overwrite adjacent memory.
  * 
- * @author Camilo Cunha de Aevedo
+ * @author Camilo Cunha de Azevedo <camilotk@gmail.com>
  * @date April 20, 2025
  */
 
