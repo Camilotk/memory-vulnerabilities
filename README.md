@@ -87,7 +87,9 @@ make concurrency-safety
 
 ```bash
 # Run a C example
-_build/c-examples/spatial/buffer-overflow/buffer-overflow
+cd _build/c-examples/spatial/buffer-overflow
+./buffer-overflow
+(echo -e "$(./buffer_overflow.py)"; cat) | ./buffer_overflow
 ```
 
 ### Erlang Examples
@@ -95,6 +97,7 @@ _build/c-examples/spatial/buffer-overflow/buffer-overflow
 ```bash
 # Run an Erlang example (from project root)
 cd _build/erlang-examples/spatial/buffer-safety
+erl
 ```
 
 ## Warning
