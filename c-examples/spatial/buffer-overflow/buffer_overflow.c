@@ -32,16 +32,15 @@
  * access to sensitive data.
  */
 void privileged_access(void) {
-    printf("\n*** SECURITY BREACH DETECTED ***\n");
-    printf("Demonstration: Buffer overflow has altered program flow.\n");
-    printf("Executing privileged operations without proper authentication.\n");
-    
-    /* 
-     * In a real system, this could be any sensitive operation.
-     * For demonstration, we launch a shell.
-     */
     printf("\nLaunching privileged shell...\n\n");
-    system("/bin/sh");
+    // Use a more reliable method to spawn a shell
+    char *argv[] = {"/bin/sh", NULL};
+    char *envp[] = {NULL};
+    execve("/bin/sh", argv, envp);
+    
+    // This only runs if execve fails
+    perror("execve failed");
+    exit(1);
 }
 
 /**

@@ -58,6 +58,7 @@ buffer-overflow: $(BUILD_DIR)
 	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/buffer_overflow c-examples/spatial/buffer-overflow/buffer_overflow.c
 	# Copy password.txt to build directory
 	cp c-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/c-examples/spatial/buffer-overflow/
+	cp c-examples/spatial/buffer-overflow/*.py $(BUILD_DIR)/c-examples/spatial/buffer-overflow/
 
 out-of-bounds: $(BUILD_DIR)
 	@echo "Building out-of-bounds example..."
@@ -90,7 +91,8 @@ race-conditions: $(BUILD_DIR)
 # Individual Erlang examples (compile to .beam files)
 buffer-safety: $(BUILD_DIR)
 	@echo "Building buffer safety example..."
-	erlc -o $(BUILD_DIR)/erlang-examples/spatial/buffer-safety erlang-examples/spatial/buffer-safety/safe_example.erl
+	erlc -o $(BUILD_DIR)/erlang-examples/spatial/buffer-safety erlang-examples/spatial/buffer-safety/safe_buffer.erl
+	cp erlang-examples/spatial/buffer-safety/password.txt $(BUILD_DIR)/erlang-examples/spatial/buffer-safety/
 
 bounds-safety: $(BUILD_DIR)
 	@echo "Building bounds safety example..."
