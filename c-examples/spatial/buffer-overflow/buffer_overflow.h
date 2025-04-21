@@ -1,0 +1,47 @@
+/**
+ * @file buffer_overflow.h
+ * @brief Header file for buffer overflow demonstration program
+ * 
+ * This header file contains function declarations for a program that
+ * demonstrates a classic buffer overflow vulnerability in C programming.
+ * It is part of an academic study on memory vulnerabilities.
+ * 
+ * @author Camilo Cunha de Aevedo <camilotk@gmail.com>
+ * @date April 20, 2025
+ */
+
+#ifndef BUFFER_OVERFLOW_H
+#define BUFFER_OVERFLOW_H
+
+/**
+ * @brief Validates the provided password against the stored password
+ * 
+ * Reads the password from the specified file and compares it with
+ * the input password to determine if authentication should succeed.
+ * 
+ * @param password The password string to validate
+ * @return int 1 if the password is valid, 0 otherwise
+ */
+int validate_password(char *password);
+
+/**
+ * @brief Executes privileged operations after successful authentication
+ * 
+ * This function represents operations that should only be accessible
+ * to authenticated users. In a real-world application, this could
+ * include administrative tasks, access to sensitive data, etc.
+ */
+void privileged_access(void);
+
+/**
+ * @brief Handles user authentication with a password prompt
+ * 
+ * This function contains a classic buffer overflow vulnerability
+ * due to the use of unsafe input functions and fixed-size buffers
+ * without proper bounds checking.
+ * 
+ * @return int Authentication status (1 for success, 0 for failure)
+ */
+int authenticate_user(void);
+
+#endif /* BUFFER_OVERFLOW_H */
