@@ -90,6 +90,7 @@ make concurrency-safety
 cd _build/c-examples/spatial/buffer-overflow
 ./buffer-overflow
 (echo -e "$(./buffer_overflow.py)"; cat) | ./buffer_overflow
+cat password.txt
 ```
 
 ### Erlang Examples
