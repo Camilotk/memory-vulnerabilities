@@ -5,7 +5,10 @@ BUILD_DIR = _build
 
 # Define C compiler and flags
 CC = gcc
+# Basic flags
 CFLAGS = -Wall -Wextra
+# Always use unsafe flags to demonstrate vulnerabilities
+UNSAFE_FLAGS = -fno-stack-protector -z execstack -no-pie -D_FORTIFY_SOURCE=0
 LDFLAGS = -pthread
 
 # Default target
@@ -51,36 +54,38 @@ temporal-erlang: reference-safety garbage-collection leak-prevention concurrency
 # Individual C examples
 buffer-overflow: $(BUILD_DIR)
 	@echo "Building buffer overflow example..."
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/buffer-overflow c-examples/spatial/buffer-overflow/buffer-overflow.c
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/buffer-overflow-safe c-examples/spatial/buffer-overflow/buffer-overflow-safe.c
+	# Build with unsafe flags to demonstrate vulnerability
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/buffer_overflow c-examples/spatial/buffer-overflow/buffer_overflow.c
+	# Copy password.txt to build directory
+	cp c-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/c-examples/spatial/buffer-overflow/
 
 out-of-bounds: $(BUILD_DIR)
 	@echo "Building out-of-bounds example..."
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/c-examples/spatial/out-of-bounds/out-of-bounds c-examples/spatial/out-of-bounds/out-of-bounds.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/spatial/out-of-bounds/out-of-bounds c-examples/spatial/out-of-bounds/out-of-bounds.c
 
 improper-memory: $(BUILD_DIR)
 	@echo "Building improper memory handling example..."
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/c-examples/spatial/improper-memory/null-pointer c-examples/spatial/improper-memory/null-pointer.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/spatial/improper-memory/null-pointer c-examples/spatial/improper-memory/null-pointer.c
 
 stack-vulnerability: $(BUILD_DIR)
 	@echo "Building stack vulnerability example..."
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/c-examples/spatial/stack-vulnerabilities/stack-overflow c-examples/spatial/stack-vulnerabilities/stack-overflow.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/spatial/stack-vulnerabilities/stack-overflow c-examples/spatial/stack-vulnerabilities/stack-overflow.c
 
 use-after-free: $(BUILD_DIR)
 	@echo "Building use-after-free example..."
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/c-examples/temporal/use-after-free/use-after-free c-examples/temporal/use-after-free/use-after-free.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/temporal/use-after-free/use-after-free c-examples/temporal/use-after-free/use-after-free.c
 
 double-free: $(BUILD_DIR)
 	@echo "Building double-free example..."
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/c-examples/temporal/double-free/double-free c-examples/temporal/double-free/double-free.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/temporal/double-free/double-free c-examples/temporal/double-free/double-free.c
 
 memory-leaks: $(BUILD_DIR)
 	@echo "Building memory leaks example..."
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/c-examples/temporal/memory-leaks/memory-leaks c-examples/temporal/memory-leaks/memory-leaks.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/temporal/memory-leaks/memory-leaks c-examples/temporal/memory-leaks/memory-leaks.c
 
 race-conditions: $(BUILD_DIR)
 	@echo "Building race conditions example..."
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(BUILD_DIR)/c-examples/temporal/race-conditions/race-conditions c-examples/temporal/race-conditions/race-conditions.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) $(LDFLAGS) -o $(BUILD_DIR)/c-examples/temporal/race-conditions/race-conditions c-examples/temporal/race-conditions/race-conditions.c
 
 # Individual Erlang examples (compile to .beam files)
 buffer-safety: $(BUILD_DIR)
@@ -115,6 +120,17 @@ concurrency-safety: $(BUILD_DIR)
 	@echo "Building concurrency safety example..."
 	erlc -o $(BUILD_DIR)/erlang-examples/temporal/concurrency-safety erlang-examples/temporal/concurrency-safety/concurrency.erl
 
+# Build a specific example in debug mode with source code info (still using unsafe flags)
+debug-buffer-overflow: $(BUILD_DIR)
+	@echo "Building buffer overflow example in debug mode..."
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -g -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/buffer_overflow_debug c-examples/spatial/buffer-overflow/buffer_overflow.c
+	cp c-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/c-examples/spatial/buffer-overflow/
+
+# Run tests
+test: all
+	@echo "Running tests..."
+	cd test && ./run_tests.sh
+
 # Create the source project structure
 structure:
 	@echo "Creating source project structure..."
@@ -143,9 +159,14 @@ clean:
 	@echo "Cleaning all build artifacts..."
 	rm -rf $(BUILD_DIR)
 
+# Documentation for the examples
+docs:
+	@echo "Generating documentation..."
+	# Add documentation generation commands here
+
 .PHONY: all all-c all-erlang spatial-c temporal-c spatial-erlang temporal-erlang \
         buffer-overflow out-of-bounds improper-memory stack-vulnerability \
         use-after-free double-free memory-leaks race-conditions \
         buffer-safety bounds-safety memory-safety stack-safety \
         reference-safety garbage-collection leak-prevention concurrency-safety \
-        clean structure
+        clean structure test docs debug-buffer-overflow
