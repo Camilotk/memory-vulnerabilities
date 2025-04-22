@@ -154,7 +154,7 @@ Run the practical exploit:
 
    ```erlang
    example:handle_string("This is a very long string that would break a fixed size buffer in C").
-   login:validate_password("wrong password").
+   login:validate_password("wrong_password").
    login:validate_password("tryBreak_this1").
    ```
 </details>
