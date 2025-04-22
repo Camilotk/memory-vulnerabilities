@@ -35,9 +35,9 @@ memory-vulnerabilities/
 
 ## Building the Examples
 
-### Create Project Structure
+### Compile all
 ```bash
-make structure
+sh compile.sh
 ```
 
 ### Build All Examples
