@@ -75,6 +75,7 @@ stack-vulnerability: $(BUILD_DIR)
 use-after-free: $(BUILD_DIR)
 	@echo "Building use-after-free example..."
 	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/temporal/use-after-free/use-after-free c-examples/temporal/use-after-free/use-after-free.c
+	cp c-examples/temporal/use-after-free/*.py $(BUILD_DIR)/c-examples/temporal/use-after-free/
 
 double-free: $(BUILD_DIR)
 	@echo "Building double-free example..."
