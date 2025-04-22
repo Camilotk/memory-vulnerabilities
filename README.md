@@ -105,7 +105,7 @@ Pratical example:
 ```bash
 ./login
 # Exploit
-(echo -e "$(./buffer_overflow.py)"; cat) | ./buffer_overflow
+(echo -e "$(./exploit_login.py)"; cat) | ./login
 # run the attack
 ls
 cat password.txt
