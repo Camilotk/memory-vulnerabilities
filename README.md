@@ -88,6 +88,9 @@ make concurrency-safety
 #### Spatial
 
 ##### Buffer Overflow
+
+<details>
+    
 Access the folder:
 ```bash
 cd _build/c-examples/spatial/buffer-overflow
@@ -111,6 +114,7 @@ ls
 cat password.txt
 exit
 ```
+</details>
 
 
 #### Temporal
