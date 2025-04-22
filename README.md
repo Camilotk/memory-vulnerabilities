@@ -35,7 +35,7 @@ memory-vulnerabilities/
 
 ## Building the Examples
 
-### Compile all
+### Compile all its already done
 ```bash
 sh compile.sh
 ```
@@ -63,22 +63,12 @@ make temporal-erlang # Build temporal memory safety examples
 # C examples
 make buffer-overflow
 make out-of-bounds
-make improper-memory
-make stack-vulnerability
 make use-after-free
-make double-free
 make memory-leaks
-make race-conditions
 
 # Erlang examples
 make buffer-safety
-make bounds-safety
-make memory-safety
-make stack-safety
 make reference-safety
-make garbage-collection
-make leak-prevention
-make concurrency-safety
 ```
 
 ## Running the Examples
