@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "use-after-free.h"
+#include "useradd.h"
 
 /** Global array to store user information */
 User users[MAX_USERS];
