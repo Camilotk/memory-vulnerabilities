@@ -86,10 +86,12 @@ make concurrency-safety
 ### C Examples
 
 ```bash
-# Run a C example
+# Run
 cd _build/c-examples/spatial/buffer-overflow
 ./buffer-overflow
+# Exploit
 (echo -e "$(./buffer_overflow.py)"; cat) | ./buffer_overflow
+cat password.txt
 ```
 
 ### Erlang Examples
