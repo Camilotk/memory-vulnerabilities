@@ -114,12 +114,16 @@ ls
 cat password.txt
 exit
 ```
+
 </details>
 
 
 #### Temporal
 
 ##### Use After Free
+
+<details>
+
 Access the folder:
 ```bash
 cd _build/c-examples/temporal/use-after-free
@@ -137,6 +141,8 @@ Pratical example:
 # Exploit
 ./exploit_adduser.py | ./adduser
 ```
+
+</details>
 
 ### Erlang Examples
 
