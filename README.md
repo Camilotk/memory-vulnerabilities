@@ -85,31 +85,27 @@ make concurrency-safety
 
 ### C Examples
 
-#### Spatial
-
-##### Buffer Overflow
+#### Buffer Overflow
 
 <details>
-    
-Access the folder:
+<summary>How to run Buffer Overflow examples</summary>
+
 ```bash
 cd _build/c-examples/spatial/buffer-overflow
 ```
 
-The canonical example:
+Run the canonical example:
+
 ```bash
-# Run the example
 ./example
-# show the log of the overflow
 sudo dmesg | tail -n 5
 ```
 
-Pratical example:
+Run the practical exploit:
+
 ```bash
 ./login
-# Exploit
 (echo -e "$(./exploit_login.py)"; cat) | ./login
-# run the attack
 ls
 cat password.txt
 exit
@@ -117,40 +113,57 @@ exit
 
 </details>
 
-
-#### Temporal
-
-##### Use After Free
+#### Use-After-Free
 
 <details>
+<summary>How to run Use-After-Free examples</summary>
 
-Access the folder:
 ```bash
 cd _build/c-examples/temporal/use-after-free
 ```
 
-The canonical example:
+Run the canonical example:
+
 ```bash
-# Run the example
 ./example
 ```
 
-Pratical example:
+Run the practical exploit:
+
 ```bash
-./adduser
-# Exploit
-./exploit_adduser.py | ./adduser
+./useradd
+./exploit_useradd.py | ./useradd
 ```
 
 </details>
 
+---
+
 ### Erlang Examples
 
-```bash
-# Run an Erlang example (from project root)
-cd _build/erlang-examples/spatial/buffer-safety
-erl
-```
+All Erlang examples can be run using the Erlang shell (`erl`) after compiling.
+
+<details>
+<summary>How to run Erlang examples</summary>
+
+1. Navigate to the compiled output folder. For example:
+
+   ```bash
+   cd _build/erlang-examples/spatial/buffer-safety
+   ```
+
+2. Open the Erlang shell:
+
+   ```bash
+   erl
+   ```
+
+3. Run the module:
+
+   ```erlang
+   example:start().
+   ```
+</details>
 
 ## Warning
 
