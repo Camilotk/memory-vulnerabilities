@@ -141,7 +141,7 @@ Run the practical exploit:
 
 ### Erlang Examples
 
-All Erlang examples can be run using the Erlang shell (`erl`) after compiling.
+> All Erlang examples can be run using the Erlang shell (`erl`) after compiling.
 
 #### Buffer Safety
 
@@ -166,6 +166,39 @@ All Erlang examples can be run using the Erlang shell (`erl`) after compiling.
    example:handle_string("This is a very long string that would break a fixed size buffer in C").
    login:validate_password("wrong password").
    login:validate_password("tryBreak_this1").
+   ```
+</details>
+
+#### Reference Safety
+
+<details>
+<summary>How to run Reference Safety examples</summary>
+
+1. Navigate to the compiled output folder. For example:
+
+   ```bash
+   cd _build/erlang-examples/temporal/reference-safety
+   ```
+
+2. Open the Erlang shell:
+
+   ```bash
+   erl
+   ```
+
+3. Run the module:
+
+   ```erlang
+   example:safe_memory().
+   useradd:init().
+     > login admin admin123
+     > adduser camilo pass 0
+     > logout
+     > adduser adolfo pass 1
+     > login camilo pass
+     > adduser adolfo pass 1 
+     > logout
+    > exit
    ```
 </details>
 
