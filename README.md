@@ -143,8 +143,10 @@ Run the practical exploit:
 
 All Erlang examples can be run using the Erlang shell (`erl`) after compiling.
 
+#### Buffer Safety
+
 <details>
-<summary>How to run Erlang examples</summary>
+<summary>How to run Buffer Safety examples</summary>
 
 1. Navigate to the compiled output folder. For example:
 
@@ -161,7 +163,9 @@ All Erlang examples can be run using the Erlang shell (`erl`) after compiling.
 3. Run the module:
 
    ```erlang
-   example:start().
+   example:handle_string("This is a very long string that would break a fixed size buffer in C").
+   login:validate_password("wrong password").
+   login:validate_password("tryBreak_this1").
    ```
 </details>
 
