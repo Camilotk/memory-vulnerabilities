@@ -192,6 +192,10 @@ Run the practical exploit:
    ```
 </details>
 
+## Future Goals
+- [ ] Dockerize so don't have to run this on local machine
+- [ ] Write Unit Tests with Criterion for C Code to demonstrate it passes even its broke
+
 ## Warning
 
 The C examples in this repository demonstrate real memory vulnerabilities. Running them may cause crashes, undefined behavior, or potential security risks on your system. They are provided for educational purposes only.
