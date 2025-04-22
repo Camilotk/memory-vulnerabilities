@@ -94,7 +94,8 @@ race-conditions: $(BUILD_DIR)
 # Individual Erlang examples (compile to .beam files)
 buffer-safety: $(BUILD_DIR)
 	@echo "Building buffer safety example..."
-	erlc -o $(BUILD_DIR)/erlang-examples/spatial/buffer-safety erlang-examples/spatial/buffer-safety/safe_buffer.erl
+	erlc -o $(BUILD_DIR)/erlang-examples/spatial/buffer-safety erlang-examples/spatial/buffer-safety/login.erl
+	erlc -o $(BUILD_DIR)/erlang-examples/spatial/buffer-safety erlang-examples/spatial/buffer-safety/example.erl
 	cp erlang-examples/spatial/buffer-safety/password.txt $(BUILD_DIR)/erlang-examples/spatial/buffer-safety/
 
 bounds-safety: $(BUILD_DIR)
@@ -111,7 +112,8 @@ stack-safety: $(BUILD_DIR)
 
 reference-safety: $(BUILD_DIR)
 	@echo "Building reference safety example..."
-	erlc -o $(BUILD_DIR)/erlang-examples/temporal/reference-safety erlang-examples/temporal/reference-safety/reference_safety.erl
+	erlc -o $(BUILD_DIR)/erlang-examples/temporal/reference-safety erlang-examples/temporal/reference-safety/useradd.erl
+	erlc -o $(BUILD_DIR)/erlang-examples/temporal/reference-safety erlang-examples/temporal/reference-safety/example.erl
 
 garbage-collection: $(BUILD_DIR)
 	@echo "Building garbage collection example..."

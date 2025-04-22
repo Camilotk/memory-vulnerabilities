@@ -3,7 +3,7 @@
 %%% Secure user management system with authentication and admin controls.
 %%% @end
 %%%-------------------------------------------------------------------
--module(reference_safety).
+-module(useradd).
 -author("Camilo de Azevedo <camilotk@gmail.com>").
 -export([start/0, init/0]).
 

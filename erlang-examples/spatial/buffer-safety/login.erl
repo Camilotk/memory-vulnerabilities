@@ -6,7 +6,7 @@
 %%%   validate_password("password").
 %%% @end
 %%%-------------------------------------------------------------------
--module(safe_buffer).
+-module(login).
 -author("Camilo de Azevedo <camilotk@gmail.com>").
 -export([validate_password/1]).
 
