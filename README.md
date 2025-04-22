@@ -198,7 +198,7 @@ Run the practical exploit:
      > login camilo pass
      > adduser adolfo pass 1 
      > logout
-    > exit
+     > exit
    ```
 </details>
 
