@@ -118,15 +118,13 @@ exit
 ##### Use After Free
 Access the folder:
 ```bash
-cd _build/c-examples/spatial/buffer-overflow
+cd _build/c-examples/temporal/use-after-free
 ```
 
 The canonical example:
 ```bash
 # Run the example
 ./example
-# show the log of the overflow
-sudo dmesg | tail -n 5
 ```
 
 Pratical example:
