@@ -8,7 +8,6 @@
 %%%-------------------------------------------------------------------
 -module(safe_buffer).
 -author("Camilo de Azevedo <camilotk@gmail.com>").
-
 -export([validate_password/1]).
 
 %%doc Handles user authentication with a password prompt

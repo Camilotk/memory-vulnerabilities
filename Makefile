@@ -6,7 +6,7 @@ BUILD_DIR = _build
 # Define C compiler and flags
 CC = gcc
 # Basic flags
-CFLAGS = -Wall -Wextra
+CFLAGS = -std=c11
 # Always use unsafe flags to demonstrate vulnerabilities
 UNSAFE_FLAGS = -fno-stack-protector -z execstack -no-pie -D_FORTIFY_SOURCE=0
 LDFLAGS = -pthread
@@ -55,7 +55,7 @@ temporal-erlang: reference-safety garbage-collection leak-prevention concurrency
 buffer-overflow: $(BUILD_DIR)
 	@echo "Building buffer overflow example..."
 	# Build with unsafe flags to demonstrate vulnerability
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/buffer_overflow c-examples/spatial/buffer-overflow/buffer_overflow.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -Wno-implicit-function-declaration -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/buffer_overflow c-examples/spatial/buffer-overflow/buffer_overflow.c
 	# Copy password.txt to build directory
 	cp c-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/c-examples/spatial/buffer-overflow/
 	cp c-examples/spatial/buffer-overflow/*.py $(BUILD_DIR)/c-examples/spatial/buffer-overflow/
@@ -109,7 +109,7 @@ stack-safety: $(BUILD_DIR)
 
 reference-safety: $(BUILD_DIR)
 	@echo "Building reference safety example..."
-	erlc -o $(BUILD_DIR)/erlang-examples/temporal/reference-safety erlang-examples/temporal/reference-safety/memory_safety.erl
+	erlc -o $(BUILD_DIR)/erlang-examples/temporal/reference-safety erlang-examples/temporal/reference-safety/reference_safety.erl
 
 garbage-collection: $(BUILD_DIR)
 	@echo "Building garbage collection example..."
