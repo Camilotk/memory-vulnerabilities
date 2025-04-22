@@ -129,13 +129,9 @@ The canonical example:
 
 Pratical example:
 ```bash
-./login
+./adduser
 # Exploit
-(echo -e "$(./buffer_overflow.py)"; cat) | ./buffer_overflow
-# run the attack
-ls
-cat password.txt
-exit
+./exploit_adduser.py | ./adduser
 ```
 
 ### Erlang Examples
