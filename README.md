@@ -85,6 +85,9 @@ make concurrency-safety
 
 ### C Examples
 
+#### Spatial
+
+##### Buffer Overflow
 ```bash
 # Run
 cd _build/c-examples/spatial/buffer-overflow
@@ -92,6 +95,16 @@ cd _build/c-examples/spatial/buffer-overflow
 # Exploit
 (echo -e "$(./buffer_overflow.py)"; cat) | ./buffer_overflow
 cat password.txt
+```
+
+#### Temporal
+
+##### Use After Free
+```bash
+cd _build/c-examples/spatial/buffer-overflow
+./use-after-free
+# Exploit
+./use-after-free.py | ./use-after-free
 ```
 
 ### Erlang Examples
