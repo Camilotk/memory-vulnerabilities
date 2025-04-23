@@ -73,7 +73,7 @@ make reference-safety
 
 ## Running the Examples
 
-### C Examples
+### Vulnerability Examples
 
 #### Buffer Overflow
 
@@ -81,7 +81,7 @@ make reference-safety
 <summary>How to run Buffer Overflow examples</summary>
 
 ```bash
-cd _build/c-examples/spatial/buffer-overflow
+cd _build/vulnerability-examples/spatial/buffer-overflow
 ```
 
 Run the canonical example:
@@ -103,13 +103,37 @@ exit
 
 </details>
 
+#### Out-of-Bounds
+
+<details>
+<summary>How to run Out-of-Bounds examples</summary>
+
+```bash
+cd _build/vulnerability-examples/spatial/out-of-bounds
+```
+
+Run the canonical example:
+
+```bash
+./example
+```
+
+Run the practical exploit:
+
+```bash
+./cal
+echo "1984" | exploit_cal.py
+```
+
+</details>
+
 #### Use-After-Free
 
 <details>
 <summary>How to run Use-After-Free examples</summary>
 
 ```bash
-cd _build/c-examples/temporal/use-after-free
+cd _build/vulnerability-examples/temporal/use-after-free
 ```
 
 Run the canonical example:
