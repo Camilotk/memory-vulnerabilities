@@ -11,7 +11,7 @@ all: all-c all-erlang all-pascal
 
 all-c: spatial-c temporal-c
 all-erlang: spatial-erlang temporal-erlang
-all-pascal: pascal-out-of-bounds
+all-pascal: out-of-bounds
 
 # C Spatial
 spatial-c: buffer-overflow pointer-arithmetic
@@ -35,6 +35,8 @@ out-of-bounds:
 	@echo "Building Pascal out-of-bounds example..."
 	@mkdir -p $(BUILD_DIR)/vulnerability-examples/spatial/out-of-bounds
 	fpc -Mobjfpc -Rintel -O2 -o$(BUILD_DIR)/vulnerability-examples/spatial/out-of-bounds/example vulnerability-examples/spatial/out-of-bounds/example.pas
+	fpc -Mobjfpc -Rintel -O2 -o$(BUILD_DIR)/vulnerability-examples/spatial/out-of-bounds/cal vulnerability-examples/spatial/out-of-bounds/cal.pas
+	cp vulnerability-examples/spatial/out-of-bounds/*.py $(BUILD_DIR)/vulnerability-examples/spatial/out-of-bounds/
 
 # C Temporal
 use-after-free:
@@ -55,47 +57,47 @@ temporal-erlang: reference-safety garbage-collection leak-prevention concurrency
 
 buffer-safety:
 	@echo "Building Erlang buffer safety..."
-	@mkdir -p $(BUILD_DIR)/erlang-examples/spatial/buffer-safety
-	erlc -o $(BUILD_DIR)/erlang-examples/spatial/buffer-safety erlang-examples/spatial/buffer-safety/login.erl
-	erlc -o $(BUILD_DIR)/erlang-examples/spatial/buffer-safety erlang-examples/spatial/buffer-safety/example.erl
-	cp erlang-examples/spatial/buffer-safety/password.txt $(BUILD_DIR)/erlang-examples/spatial/buffer-safety/
+	@mkdir -p $(BUILD_DIR)/safety-examples/spatial/buffer-safety
+	erlc -o $(BUILD_DIR)/safety-examples/spatial/buffer-safety safety-examples/spatial/buffer-safety/login.erl
+	erlc -o $(BUILD_DIR)/safety-examples/spatial/buffer-safety safety-examples/spatial/buffer-safety/example.erl
+	cp safety-examples/spatial/buffer-safety/password.txt $(BUILD_DIR)/safety-examples/spatial/buffer-safety/
 
 bounds-safety:
 	@echo "Building Erlang bounds safety..."
-	@mkdir -p $(BUILD_DIR)/erlang-examples/spatial/bounds-safety
-	erlc -o $(BUILD_DIR)/erlang-examples/spatial/bounds-safety erlang-examples/spatial/bounds-safety/array_example.erl
+	@mkdir -p $(BUILD_DIR)/safety-examples/spatial/bounds-safety
+	erlc -o $(BUILD_DIR)/safety-examples/spatial/bounds-safety safety-examples/spatial/bounds-safety/array_example.erl
 
 memory-safety:
 	@echo "Building Erlang memory safety..."
-	@mkdir -p $(BUILD_DIR)/erlang-examples/spatial/memory-safety
-	erlc -o $(BUILD_DIR)/erlang-examples/spatial/memory-safety erlang-examples/spatial/memory-safety/memory_safety.erl
+	@mkdir -p $(BUILD_DIR)/safety-examples/spatial/memory-safety
+	erlc -o $(BUILD_DIR)/safety-examples/spatial/memory-safety safety-examples/spatial/memory-safety/memory_safety.erl
 
 stack-safety:
 	@echo "Building Erlang stack safety..."
-	@mkdir -p $(BUILD_DIR)/erlang-examples/spatial/stack-safety
-	erlc -o $(BUILD_DIR)/erlang-examples/spatial/stack-safety erlang-examples/spatial/stack-safety/recursion.erl
+	@mkdir -p $(BUILD_DIR)/safety-examples/spatial/stack-safety
+	erlc -o $(BUILD_DIR)/safety-examples/spatial/stack-safety safety-examples/spatial/stack-safety/recursion.erl
 
 # Erlang Temporal
 reference-safety:
 	@echo "Building Erlang reference safety..."
-	@mkdir -p $(BUILD_DIR)/erlang-examples/temporal/reference-safety
-	erlc -o $(BUILD_DIR)/erlang-examples/temporal/reference-safety erlang-examples/temporal/reference-safety/useradd.erl
-	erlc -o $(BUILD_DIR)/erlang-examples/temporal/reference-safety erlang-examples/temporal/reference-safety/example.erl
+	@mkdir -p $(BUILD_DIR)/safety-examples/temporal/reference-safety
+	erlc -o $(BUILD_DIR)/safety-examples/temporal/reference-safety safety-examples/temporal/reference-safety/useradd.erl
+	erlc -o $(BUILD_DIR)/safety-examples/temporal/reference-safety safety-examples/temporal/reference-safety/example.erl
 
 garbage-collection:
 	@echo "Building Erlang garbage collection..."
-	@mkdir -p $(BUILD_DIR)/erlang-examples/temporal/garbage-collection
-	erlc -o $(BUILD_DIR)/erlang-examples/temporal/garbage-collection erlang-examples/temporal/garbage-collection/memory_management.erl
+	@mkdir -p $(BUILD_DIR)/safety-examples/temporal/garbage-collection
+	erlc -o $(BUILD_DIR)/safety-examples/temporal/garbage-collection safety-examples/temporal/garbage-collection/memory_management.erl
 
 leak-prevention:
 	@echo "Building Erlang leak prevention..."
-	@mkdir -p $(BUILD_DIR)/erlang-examples/temporal/leak-prevention
-	erlc -o $(BUILD_DIR)/erlang-examples/temporal/leak-prevention erlang-examples/temporal/leak-prevention/memory_management.erl
+	@mkdir -p $(BUILD_DIR)/safety-examples/temporal/leak-prevention
+	erlc -o $(BUILD_DIR)/safety-examples/temporal/leak-prevention safety-examples/temporal/leak-prevention/memory_management.erl
 
 concurrency-safety:
 	@echo "Building Erlang concurrency safety..."
-	@mkdir -p $(BUILD_DIR)/erlang-examples/temporal/concurrency-safety
-	erlc -o $(BUILD_DIR)/erlang-examples/temporal/concurrency-safety erlang-examples/temporal/concurrency-safety/concurrency.erl
+	@mkdir -p $(BUILD_DIR)/safety-examples/temporal/concurrency-safety
+	erlc -o $(BUILD_DIR)/safety-examples/temporal/concurrency-safety safety-examples/temporal/concurrency-safety/concurrency.erl
 
 # Utility
 debug-buffer-overflow:
@@ -114,4 +116,4 @@ clean:
 	use-after-free memory-leaks \
 	buffer-safety bounds-safety memory-safety stack-safety \
 	reference-safety garbage-collection leak-prevention concurrency-safety \
-	pascal-out-of-bounds debug-buffer-overflow clean
+	out-of-bounds debug-buffer-overflow clean
