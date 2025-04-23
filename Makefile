@@ -7,49 +7,52 @@ UNSAFE_FLAGS = -fno-stack-protector -z execstack -no-pie -D_FORTIFY_SOURCE=0
 LDFLAGS = -pthread
 
 # Top-level targets
-all: all-c all-erlang
+all: all-c all-erlang all-pascal
+
 all-c: spatial-c temporal-c
 all-erlang: spatial-erlang temporal-erlang
-
-spatial-c: buffer-overflow out-of-bounds pointer-arithmetic
-temporal-c: use-after-free memory-leaks
-
-spatial-erlang: buffer-safety bounds-safety memory-safety stack-safety
-temporal-erlang: reference-safety garbage-collection leak-prevention concurrency-safety
+all-pascal: pascal-out-of-bounds
 
 # C Spatial
+spatial-c: buffer-overflow pointer-arithmetic
+temporal-c: use-after-free memory-leaks
+
 buffer-overflow:
 	@echo "Building buffer overflow..."
-	@mkdir -p $(BUILD_DIR)/c-examples/spatial/buffer-overflow
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/example c-examples/spatial/buffer-overflow/example.c
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -Wno-implicit-function-declaration -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/login c-examples/spatial/buffer-overflow/login.c
-	cp c-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/c-examples/spatial/buffer-overflow/
-	cp c-examples/spatial/buffer-overflow/*.py $(BUILD_DIR)/c-examples/spatial/buffer-overflow/
-
-out-of-bounds:
-	@echo "Building out-of-bounds..."
-	@mkdir -p $(BUILD_DIR)/c-examples/spatial/out-of-bounds
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/spatial/out-of-bounds/out-of-bounds c-examples/spatial/out-of-bounds/out-of-bounds.c
+	@mkdir -p $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/example vulnerability-examples/spatial/buffer-overflow/example.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -Wno-implicit-function-declaration -o $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/login vulnerability-examples/spatial/buffer-overflow/login.c
+	cp vulnerability-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/
+	cp vulnerability-examples/spatial/buffer-overflow/*.py $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/
 
 pointer-arithmetic:
 	@echo "Building pointer arithmetic..."
-	@mkdir -p $(BUILD_DIR)/c-examples/spatial/pointer-arithmetic
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/spatial/pointer-arithmetic/example c-examples/spatial/pointer-arithmetic/example.c
+	@mkdir -p $(BUILD_DIR)/vulnerability-examples/spatial/pointer-arithmetic
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/spatial/pointer-arithmetic/example vulnerability-examples/spatial/pointer-arithmetic/example.c
+
+# Pascal Spatial
+out-of-bounds:
+	@echo "Building Pascal out-of-bounds example..."
+	@mkdir -p $(BUILD_DIR)/vulnerability-examples/spatial/out-of-bounds
+	fpc -Mobjfpc -Rintel -O2 -o$(BUILD_DIR)/vulnerability-examples/spatial/out-of-bounds/example vulnerability-examples/spatial/out-of-bounds/example.pas
 
 # C Temporal
 use-after-free:
 	@echo "Building use-after-free..."
-	@mkdir -p $(BUILD_DIR)/c-examples/temporal/use-after-free
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/temporal/use-after-free/useradd c-examples/temporal/use-after-free/useradd.c
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/temporal/use-after-free/example c-examples/temporal/use-after-free/example.c
-	cp c-examples/temporal/use-after-free/*.py $(BUILD_DIR)/c-examples/temporal/use-after-free/
+	@mkdir -p $(BUILD_DIR)/vulnerability-examples/temporal/use-after-free
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/temporal/use-after-free/useradd vulnerability-examples/temporal/use-after-free/useradd.c
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/temporal/use-after-free/example vulnerability-examples/temporal/use-after-free/example.c
+	cp vulnerability-examples/temporal/use-after-free/*.py $(BUILD_DIR)/vulnerability-examples/temporal/use-after-free/
 
 memory-leaks:
 	@echo "Building memory leaks..."
-	@mkdir -p $(BUILD_DIR)/c-examples/temporal/memory-leaks
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/c-examples/temporal/memory-leaks/memory-leaks c-examples/temporal/memory-leaks/memory-leaks.c
+	@mkdir -p $(BUILD_DIR)/vulnerability-examples/temporal/memory-leaks
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/temporal/memory-leaks/memory-leaks vulnerability-examples/temporal/memory-leaks/memory-leaks.c
 
 # Erlang Spatial
+spatial-erlang: buffer-safety bounds-safety memory-safety stack-safety
+temporal-erlang: reference-safety garbage-collection leak-prevention concurrency-safety
+
 buffer-safety:
 	@echo "Building Erlang buffer safety..."
 	@mkdir -p $(BUILD_DIR)/erlang-examples/spatial/buffer-safety
@@ -97,17 +100,18 @@ concurrency-safety:
 # Utility
 debug-buffer-overflow:
 	@echo "Building debug buffer overflow..."
-	@mkdir -p $(BUILD_DIR)/c-examples/spatial/buffer-overflow
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -g -o $(BUILD_DIR)/c-examples/spatial/buffer-overflow/buffer_overflow_debug c-examples/spatial/buffer-overflow/buffer_overflow.c
-	cp c-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/c-examples/spatial/buffer-overflow/
+	@mkdir -p $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -g -o $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/buffer_overflow_debug vulnerability-examples/spatial/buffer-overflow/buffer_overflow.c
+	cp vulnerability-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/
 
 clean:
 	@echo "Cleaning all build artifacts..."
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all all-c all-erlang spatial-c temporal-c spatial-erlang temporal-erlang \
-	buffer-overflow out-of-bounds pointer-arithmetic \
+.PHONY: all all-c all-erlang all-pascal \
+	spatial-c temporal-c spatial-erlang temporal-erlang \
+	buffer-overflow pointer-arithmetic \
 	use-after-free memory-leaks \
 	buffer-safety bounds-safety memory-safety stack-safety \
 	reference-safety garbage-collection leak-prevention concurrency-safety \
-	debug-buffer-overflow clean structure test docs
+	pascal-out-of-bounds debug-buffer-overflow clean
