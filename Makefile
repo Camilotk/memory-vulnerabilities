@@ -5,13 +5,16 @@ CC = gcc
 CFLAGS = -std=c11
 UNSAFE_FLAGS = -fno-stack-protector -z execstack -no-pie -D_FORTIFY_SOURCE=0
 LDFLAGS = -pthread
+JAVAC = javac
+JAVA_FLAGS = 
 
 # Top-level targets
-all: all-c all-erlang all-pascal
+all: all-c all-erlang all-pascal all-java
 
 all-c: spatial-c temporal-c
 all-erlang: spatial-erlang temporal-erlang
 all-pascal: out-of-bounds
+all-java: race-conditions
 
 # C Spatial
 spatial-c: buffer-overflow pointer-arithmetic
@@ -50,6 +53,12 @@ memory-leaks:
 	@echo "Building memory leaks..."
 	@mkdir -p $(BUILD_DIR)/vulnerability-examples/temporal/memory-leaks
 	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/temporal/memory-leaks/memory-leaks vulnerability-examples/temporal/memory-leaks/memory-leaks.c
+
+# Java Temporal
+race-conditions:
+	@echo "Building Java race conditions example..."
+	@mkdir -p $(BUILD_DIR)/vulnerability-examples/temporal/race-conditions
+	$(JAVAC) $(JAVA_FLAGS) -d $(BUILD_DIR)/vulnerability-examples/temporal/race-conditions vulnerability-examples/temporal/race-conditions/Example.java
 
 # Erlang Spatial
 spatial-erlang: buffer-safety bounds-safety memory-safety stack-safety
@@ -110,10 +119,10 @@ clean:
 	@echo "Cleaning all build artifacts..."
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all all-c all-erlang all-pascal \
+.PHONY: all all-c all-erlang all-pascal all-java \
 	spatial-c temporal-c spatial-erlang temporal-erlang \
 	buffer-overflow pointer-arithmetic \
-	use-after-free memory-leaks \
+	use-after-free memory-leaks race-conditions \
 	buffer-safety bounds-safety memory-safety stack-safety \
 	reference-safety garbage-collection leak-prevention concurrency-safety \
 	out-of-bounds debug-buffer-overflow clean
