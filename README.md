@@ -33,6 +33,30 @@ memory-vulnerabilities/
 - Memory Leaks
 - Race Conditions in Memory Operations
 
+### Per language
+
+| Vulnerability | C | Erlang | Java | Pascal |
+|---------------|---|--------|------|--------|
+| Buffer overflow | ✓ | ✗ | ✗* | ▲ |
+| Use after free | ✓ | ✗ | ✗* | ✓ |
+| Buffer underflow | ✓ | ✗ | ✗* | ▲ |
+| Double free | ✓ | ✗ | ✗* | ✓ |
+| Array index out-of-bounds | ✓ | ✗ | ✗* | ▲ |
+| Dangling pointers | ✓ | ✗ | ✗* | ✓ |
+| Pointer arithmetic errors | ✓ | ✗ | ✗* | ✗** |
+| Memory leaks | ✓ | ✓** | ✓** | ✓ |
+| Uninitialized memory reads | ✓ | ✗ | ✗* | ✓ |
+| Data race conditions | ✓ | ✗*** | ✓ | ✓ |
+
+**Legend:**
+- ✓: Vulnerability exists in this language
+- ✗: Vulnerability does not exist or is prevented by language design
+- ▲: Partially mitigated through language design but still possible
+- ✗*: Prevented through automatic memory management (garbage collection)
+- ✓**: Can still have "logical" memory leaks despite garbage collection
+- ✗**: Standard Pascal doesn't allow pointer arithmetic operations like C
+- ✗***: Prevented through Erlang's unique message-passing concurrency model
+
 ## Building the Examples
 
 ### Compile all its already done
