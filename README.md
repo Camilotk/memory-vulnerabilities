@@ -35,27 +35,56 @@ memory-vulnerabilities/
 
 ### Per language
 
-| Vulnerability | C | Erlang | Java | Pascal |
+| Vulnerability | C | Pascal | Java | Erlang |
 |---------------|---|--------|------|--------|
-| Buffer overflow | ✓ | ✗ | ✗* | ▲ |
-| Use after free | ✓ | ✗ | ✗* | ✓ |
-| Buffer underflow | ✓ | ✗ | ✗* | ▲ |
-| Double free | ✓ | ✗ | ✗* | ✓ |
-| Array index out-of-bounds | ✓ | ✗ | ✗* | ▲ |
-| Dangling pointers | ✓ | ✗ | ✗* | ✓ |
-| Pointer arithmetic errors | ✓ | ✗ | ✗* | ✗** |
-| Memory leaks | ✓ | ✓** | ✓** | ✓ |
-| Uninitialized memory reads | ✓ | ✗ | ✗* | ✓ |
-| Data race conditions | ✓ | ✗*** | ✓ | ✓ |
+| Buffer overflow | ✓ | ▲ | ✗* | ✗ |
+| Use after free | ✓ | ✓ | ✗* | ✗ |
+| Buffer underflow | ✓ | ▲ | ✗* | ✗ |
+| Double free | ✓ | ✓ | ✗* | ✗ |
+| Array index out-of-bounds | ✓ | ▲ | ✗* | ✗ |
+| Dangling pointers | ✓ | ✓ | ✗* | ✗ |
+| Pointer arithmetic errors | ✓ | ✗** | ✗* | ✗ |
+| Memory leaks | ✓ | ✓ | ▲** | ▲** |
+| Uninitialized memory reads | ✓ | ✓ | ✗* | ✗ |
+| Data race conditions | ✓ | ✓ | ✓ | ✗*** |
 
-**Legend:**
+#### Legend:
 - ✓: Vulnerability exists in this language
 - ✗: Vulnerability does not exist or is prevented by language design
 - ▲: Partially mitigated through language design but still possible
 - ✗*: Prevented through automatic memory management (garbage collection)
-- ✓**: Can still have "logical" memory leaks despite garbage collection
+- ▲**: Can still have "logical" memory leaks despite garbage collection
 - ✗**: Standard Pascal doesn't allow pointer arithmetic operations like C
 - ✗***: Prevented through Erlang's unique message-passing concurrency model
+
+#### Language-Specific Memory Management Notes:
+
+**C:**
+- Manual memory management with malloc/free
+- No automatic bounds checking
+- Direct pointer manipulation and arithmetic
+- Programmer responsible for all memory safety
+
+**Pascal:**
+- Manual memory management with new/dispose
+- Optional array bounds checking in many implementations
+- Strongly typed pointers with type-safety checks
+- No arbitrary pointer arithmetic like in C
+- Still vulnerable to dangling pointers and use-after-free issues
+
+**Java:**
+- Automatic memory management via garbage collection
+- Automatic array bounds checking
+- No direct pointer manipulation (uses references)
+- Still vulnerable to logical memory leaks (holding onto references unnecessarily)
+- Shared-memory concurrency model allows for race conditions
+
+**Erlang:**
+- Automatic memory management via garbage collection
+- Immutable data structures prevent many vulnerabilities
+- No pointers or direct memory manipulation
+- Message-passing concurrency model prevents traditional race conditions
+- "Share nothing" architecture between processes
 
 ## Building the Examples
 
