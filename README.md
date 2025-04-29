@@ -204,6 +204,30 @@ Run the practical exploit:
 
 </details>
 
+#### Race Conditions
+
+<details>
+<summary>How to run Race Conditions examples</summary>
+
+```bash
+cd _build/vulnerability-examples/temporal/race-conditions
+```
+
+Run the canonical example:
+
+```bash
+java Example
+```
+
+Run the practical exploit:
+
+```bash
+java BookScraper "shakespeare"
+```
+> This will "work" but the downloaded EPUB files will be corrupted because race condition on write.
+
+</details>
+
 ---
 
 ### Erlang Examples
