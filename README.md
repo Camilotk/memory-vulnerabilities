@@ -70,14 +70,14 @@ cd _build/vulnerability-examples/spatial/buffer-overflow
 Run the canonical example:
 
 ```bash
-./example
-sudo dmesg | tail -n 5
+./example AAAAAAAAAAAAAAAAAAA
 ```
 
 Run the practical exploit:
 
 ```bash
 ./login
+sudo chmod +x ./exploit_login.py
 (echo -e "$(./exploit_login.py)"; cat) | ./login
 ls
 cat password.txt
