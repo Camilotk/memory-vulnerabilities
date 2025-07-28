@@ -77,7 +77,7 @@ Run the practical exploit:
 
 ```bash
 ./login
-sudo chmod +x ./exploit_login.py
+sudo chmod +x exploit_login.py
 (echo -e "$(./exploit_login.py)"; cat) | ./login
 ls
 cat password.txt
@@ -105,7 +105,8 @@ Run the practical exploit:
 
 ```bash
 ./cal
-echo "1984" | exploit_cal.py
+sudo chmod +x exploit_cal.py
+echo "1984" | ./exploit_cal.py
 ```
 
 </details>
