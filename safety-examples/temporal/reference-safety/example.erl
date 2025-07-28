@@ -1,19 +1,31 @@
 -module(example).
--export([safe_memory/0]).
+-export([start/0, request_action/1, release/1]).
 
-safe_memory() ->
-    % In Erlang, memory is managed by the runtime.
-    % Variables are immutable, preventing use-after-free scenarios.
+% Starts a new process running the loop
+start() ->
+    spawn(fun() -> loop() end).
 
-    % This creates a string (list) in memory
-    Buffer = "Hello",
-    io:format("Buffer content: ~s~n", [Buffer]),
+% Sends a perform_action request to the process and waits for a reply (up to 5 seconds)
+request_action(Pid) ->
+    Pid ! {self(), perform_action},
+    receive
+        {Pid, Result} -> Result
+    after 5000 ->
+        timeout
+    end.
 
-    % Once a variable is no longer referenced,
-    % the garbage collector reclaims the memory.
-    % There’s no way to explicitly free memory and continue using it.
+% Sends a terminate message to the process
+release(Pid) ->
+    Pid ! terminate.
 
-    % Creating a new variable doesn’t affect the old one
-    NewBuffer = "World",
-    io:format("New buffer: ~s~n", [NewBuffer]),
-    io:format("Original buffer still safe: ~s~n", [Buffer]).
+% Main receive loop for handling messages
+loop() ->
+    receive
+        % Handle perform_action request and reply to sender
+        {From, perform_action} ->
+            From ! {self(), {ok, action_performed}},
+            loop();
+        % Exit on terminate message
+        terminate ->
+            ok
+    end.
