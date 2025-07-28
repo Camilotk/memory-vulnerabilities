@@ -243,4 +243,4 @@ java BookScraper "shakespeare"
 
 ## Warning
 
-The C examples in this repository demonstrate real memory vulnerabilities. Running them may cause crashes, undefined behavior, or potential security risks on your system. They are provided for educational purposes only.
+The C, Pascal and Java examples in this repository demonstrate real memory vulnerabilities. Running them may cause crashes, undefined behavior, or potential security risks on your system. They are provided for educational purposes only.
