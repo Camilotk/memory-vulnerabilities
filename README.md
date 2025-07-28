@@ -1,6 +1,6 @@
 # Memory Vulnerabilities: C and Erlang Comparison
 
-This repository contains code examples from the research paper "Memory Vulnerabilities: A Comparative Analysis in C and Erlang". It demonstrates common memory vulnerabilities in C and how they are prevented by design in Erlang.
+This repository contains code examples from the future research paper "Erlang's Unsafe Impedance: A Design-Level Prevention of Common Memory Vulnerabilities". It demonstrates common memory vulnerabilities in C and how they are prevented by design in Erlang.
 
 ## Repository Structure
 
@@ -8,83 +8,13 @@ The repository is organized by vulnerability type, with matching implementations
 
 ```
 memory-vulnerabilities/
-├── c-examples/          # Demonstrates memory vulnerabilities in C
-│   ├── spatial/         # Spatial memory vulnerabilities
-│   └── temporal/        # Temporal memory vulnerabilities
-├── erlang-examples/     # Demonstrates memory safety in Erlang
-│   ├── spatial/         # Protection against spatial memory issues
-│   └── temporal/        # Protection against temporal memory issues
-└── _build/              # Compiled binaries and .beam files
-    ├── c-examples/      # Compiled C executables
-    └── erlang-examples/ # Compiled Erlang modules
+├── vulnerability-examples/   # Vulnerable implementations in C, Java, Pascal
+│   ├── spatial/
+│   └── temporal/
+└── safety-examples/          # Safe implementations in Erlang
+    ├── spatial/
+    └── temporal/
 ```
-
-## Vulnerability Categories
-
-### Spatial Memory Vulnerabilities
-- Buffer Overflow/Underflow
-- Out-of-Bounds Read/Write
-- Improper Memory Handling
-- Stack-Specific Vulnerabilities
-
-### Temporal Memory Vulnerabilities
-- Use-After-Free
-- Double Free
-- Memory Leaks
-- Race Conditions in Memory Operations
-
-### Per language
-
-| Vulnerability | C | Pascal | Java | Erlang |
-|---------------|---|--------|------|--------|
-| Buffer overflow | ✓ | ▲ | ✗* | ✗ |
-| Use after free | ✓ | ✓ | ✗* | ✗ |
-| Buffer underflow | ✓ | ▲ | ✗* | ✗ |
-| Double free | ✓ | ✓ | ✗* | ✗ |
-| Array index out-of-bounds | ✓ | ▲ | ✗* | ✗ |
-| Dangling pointers | ✓ | ✓ | ✗* | ✗ |
-| Pointer arithmetic errors | ✓ | ✗** | ✗* | ✗ |
-| Memory leaks | ✓ | ✓ | ▲** | ▲** |
-| Uninitialized memory reads | ✓ | ✓ | ✗* | ✗ |
-| Data race conditions | ✓ | ✓ | ✓ | ✗*** |
-
-#### Legend:
-- ✓: Vulnerability exists in this language
-- ✗: Vulnerability does not exist or is prevented by language design
-- ▲: Partially mitigated through language design but still possible
-- ✗*: Prevented through automatic memory management (garbage collection)
-- ▲**: Can still have "logical" memory leaks despite garbage collection
-- ✗**: Standard Pascal doesn't allow pointer arithmetic operations like C
-- ✗***: Prevented through Erlang's unique message-passing concurrency model
-
-#### Language-Specific Memory Management Notes:
-
-**C:**
-- Manual memory management with malloc/free
-- No automatic bounds checking
-- Direct pointer manipulation and arithmetic
-- Programmer responsible for all memory safety
-
-**Pascal:**
-- Manual memory management with new/dispose
-- Optional array bounds checking in many implementations
-- Strongly typed pointers with type-safety checks
-- No arbitrary pointer arithmetic like in C
-- Still vulnerable to dangling pointers and use-after-free issues
-
-**Java:**
-- Automatic memory management via garbage collection
-- Automatic array bounds checking
-- No direct pointer manipulation (uses references)
-- Still vulnerable to logical memory leaks (holding onto references unnecessarily)
-- Shared-memory concurrency model allows for race conditions
-
-**Erlang:**
-- Automatic memory management via garbage collection
-- Immutable data structures prevent many vulnerabilities
-- No pointers or direct memory manipulation
-- Message-passing concurrency model prevents traditional race conditions
-- "Share nothing" architecture between processes
 
 ## Building the Examples
 
@@ -117,7 +47,7 @@ make temporal-erlang # Build temporal memory safety examples
 make buffer-overflow
 make out-of-bounds
 make use-after-free
-make memory-leaks
+make double-free
 
 # Erlang examples
 make buffer-safety
@@ -204,6 +134,23 @@ Run the practical exploit:
 
 </details>
 
+#### Double Free
+
+<details>
+<summary>How to run Double Free examples</summary>
+
+```bash
+cd _build/vulnerability-examples/temporal/double-free
+```
+
+Run the canonical example:
+
+```bash
+./example
+```
+
+</details>
+
 #### Race Conditions
 
 <details>
@@ -242,7 +189,7 @@ java BookScraper "shakespeare"
 1. Navigate to the compiled output folder. For example:
 
    ```bash
-   cd _build/erlang-examples/spatial/buffer-safety
+   cd _build/safety-examples/spatial/buffer-safety
    ```
 
 2. Open the Erlang shell:
@@ -268,7 +215,7 @@ java BookScraper "shakespeare"
 1. Navigate to the compiled output folder. For example:
 
    ```bash
-   cd _build/erlang-examples/temporal/reference-safety
+   cd _build/safety-examples/temporal/reference-safety
    ```
 
 2. Open the Erlang shell:
@@ -292,10 +239,6 @@ java BookScraper "shakespeare"
      > exit
    ```
 </details>
-
-## Future Goals
-- [ ] Dockerize so don't have to run this on local machine
-- [ ] Write Unit Tests with Criterion for C Code to demonstrate it passes even its broke
 
 ## Warning
 
