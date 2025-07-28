@@ -17,8 +17,8 @@ all-pascal: out-of-bounds
 all-java: race-conditions
 
 # C Spatial
-spatial-c: buffer-overflow pointer-arithmetic
-temporal-c: use-after-free memory-leaks
+spatial-c: buffer-overflow 
+temporal-c: use-after-free double-free
 
 buffer-overflow:
 	@echo "Building buffer overflow..."
@@ -27,11 +27,6 @@ buffer-overflow:
 	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -Wno-implicit-function-declaration -o $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/login vulnerability-examples/spatial/buffer-overflow/login.c
 	cp vulnerability-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/
 	cp vulnerability-examples/spatial/buffer-overflow/*.py $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/
-
-pointer-arithmetic:
-	@echo "Building pointer arithmetic..."
-	@mkdir -p $(BUILD_DIR)/vulnerability-examples/spatial/pointer-arithmetic
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/spatial/pointer-arithmetic/example vulnerability-examples/spatial/pointer-arithmetic/example.c
 
 # Pascal Spatial
 out-of-bounds:
@@ -49,10 +44,10 @@ use-after-free:
 	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/temporal/use-after-free/example vulnerability-examples/temporal/use-after-free/example.c
 	cp vulnerability-examples/temporal/use-after-free/*.py $(BUILD_DIR)/vulnerability-examples/temporal/use-after-free/
 
-memory-leaks:
-	@echo "Building memory leaks..."
-	@mkdir -p $(BUILD_DIR)/vulnerability-examples/temporal/memory-leaks
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/temporal/memory-leaks/memory-leaks vulnerability-examples/temporal/memory-leaks/memory-leaks.c
+double-free:
+	@echo "Building double free..."
+	@mkdir -p $(BUILD_DIR)/vulnerability-examples/temporal/double-free
+	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -o $(BUILD_DIR)/vulnerability-examples/temporal/double-free/example vulnerability-examples/temporal/double-free/example.c
 
 # Java Temporal
 race-conditions:
@@ -61,8 +56,8 @@ race-conditions:
 	$(JAVAC) $(JAVA_FLAGS) -d $(BUILD_DIR)/vulnerability-examples/temporal/race-conditions vulnerability-examples/temporal/race-conditions/Example.java
 
 # Erlang Spatial
-spatial-erlang: buffer-safety bounds-safety memory-safety stack-safety
-temporal-erlang: reference-safety garbage-collection leak-prevention concurrency-safety
+spatial-erlang: buffer-safety bounds-checking
+temporal-erlang: reference-safety no-manual-free concurrency-safety
 
 buffer-safety:
 	@echo "Building Erlang buffer safety..."
@@ -71,20 +66,10 @@ buffer-safety:
 	erlc -o $(BUILD_DIR)/safety-examples/spatial/buffer-safety safety-examples/spatial/buffer-safety/example.erl
 	cp safety-examples/spatial/buffer-safety/password.txt $(BUILD_DIR)/safety-examples/spatial/buffer-safety/
 
-bounds-safety:
+bounds-checking:
 	@echo "Building Erlang bounds safety..."
-	@mkdir -p $(BUILD_DIR)/safety-examples/spatial/bounds-safety
-	erlc -o $(BUILD_DIR)/safety-examples/spatial/bounds-safety safety-examples/spatial/bounds-safety/array_example.erl
-
-memory-safety:
-	@echo "Building Erlang memory safety..."
-	@mkdir -p $(BUILD_DIR)/safety-examples/spatial/memory-safety
-	erlc -o $(BUILD_DIR)/safety-examples/spatial/memory-safety safety-examples/spatial/memory-safety/memory_safety.erl
-
-stack-safety:
-	@echo "Building Erlang stack safety..."
-	@mkdir -p $(BUILD_DIR)/safety-examples/spatial/stack-safety
-	erlc -o $(BUILD_DIR)/safety-examples/spatial/stack-safety safety-examples/spatial/stack-safety/recursion.erl
+	@mkdir -p $(BUILD_DIR)/safety-examples/spatial/bounds-checking
+	erlc -o $(BUILD_DIR)/safety-examples/spatial/bounds-checking safety-examples/spatial/bounds-checking/example.erl
 
 # Erlang Temporal
 reference-safety:
@@ -93,20 +78,15 @@ reference-safety:
 	erlc -o $(BUILD_DIR)/safety-examples/temporal/reference-safety safety-examples/temporal/reference-safety/useradd.erl
 	erlc -o $(BUILD_DIR)/safety-examples/temporal/reference-safety safety-examples/temporal/reference-safety/example.erl
 
-garbage-collection:
+no-manual-free:
 	@echo "Building Erlang garbage collection..."
-	@mkdir -p $(BUILD_DIR)/safety-examples/temporal/garbage-collection
-	erlc -o $(BUILD_DIR)/safety-examples/temporal/garbage-collection safety-examples/temporal/garbage-collection/memory_management.erl
-
-leak-prevention:
-	@echo "Building Erlang leak prevention..."
-	@mkdir -p $(BUILD_DIR)/safety-examples/temporal/leak-prevention
-	erlc -o $(BUILD_DIR)/safety-examples/temporal/leak-prevention safety-examples/temporal/leak-prevention/memory_management.erl
+	@mkdir -p $(BUILD_DIR)/safety-examples/temporal/no-manual-free
+	erlc -o $(BUILD_DIR)/safety-examples/temporal/no-manual-free safety-examples/temporal/no-manual-free/example.erl
 
 concurrency-safety:
 	@echo "Building Erlang concurrency safety..."
 	@mkdir -p $(BUILD_DIR)/safety-examples/temporal/concurrency-safety
-	erlc -o $(BUILD_DIR)/safety-examples/temporal/concurrency-safety safety-examples/temporal/concurrency-safety/concurrency.erl
+	erlc -o $(BUILD_DIR)/safety-examples/temporal/concurrency-safety safety-examples/temporal/concurrency-safety/example.erl
 
 # Utility
 debug-buffer-overflow:
@@ -121,8 +101,6 @@ clean:
 
 .PHONY: all all-c all-erlang all-pascal all-java \
 	spatial-c temporal-c spatial-erlang temporal-erlang \
-	buffer-overflow pointer-arithmetic \
-	use-after-free memory-leaks race-conditions \
-	buffer-safety bounds-safety memory-safety stack-safety \
-	reference-safety garbage-collection leak-prevention concurrency-safety \
+	buffer-overflow double-free use-after-free race-conditions \
+	buffer-safety bounds-checking reference-safety no-manual-free concurrency-safety \
 	out-of-bounds debug-buffer-overflow clean
