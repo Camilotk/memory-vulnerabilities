@@ -89,12 +89,6 @@ concurrency-safety:
 	erlc -o $(BUILD_DIR)/safety-examples/temporal/concurrency-safety safety-examples/temporal/concurrency-safety/example.erl
 
 # Utility
-debug-buffer-overflow:
-	@echo "Building debug buffer overflow..."
-	@mkdir -p $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow
-	$(CC) $(CFLAGS) $(UNSAFE_FLAGS) -g -o $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/buffer_overflow_debug vulnerability-examples/spatial/buffer-overflow/buffer_overflow.c
-	cp vulnerability-examples/spatial/buffer-overflow/password.txt $(BUILD_DIR)/vulnerability-examples/spatial/buffer-overflow/
-
 clean:
 	@echo "Cleaning all build artifacts..."
 	rm -rf $(BUILD_DIR)
